@@ -23,20 +23,41 @@ import { store } from '../store.js';
 
 // --- ÉTAT DU JEU ---
 const rocks = ref([]);
-let gameLoop;
+let spawnTimeout;
+let difficultyTimeout;
 
 const GAME_WIDTH = 2;
+const BASE_SPEED = 4;
+const BASE_INTERVAL = 1200;
 
 // Créer une roche
 const spawnRock = () => {
-  if (store.isGameOver) return;
+  if (store.isGameOver || !store.isPlaying) return;
 
   const id = Date.now();
   const x = (Math.random() * GAME_WIDTH) - (GAME_WIDTH / 2);
   const y = 1 + Math.random();
-  const speed = 4 + Math.random() * 4;
+
+  // La vitesse augmente avec la difficulté
+  const speed = (BASE_SPEED + Math.random() * 4) * store.difficulty;
 
   rocks.value.push({ id, x, y, speed, isHit: false });
+
+  // Planifier la prochaine roche (l'intervalle diminue avec la difficulté)
+  const currentInterval = Math.max(300, BASE_INTERVAL / store.difficulty);
+  spawnTimeout = setTimeout(spawnRock, currentInterval);
+};
+
+// Augmenter la difficulté progressivement
+const increaseDifficulty = () => {
+  if (store.isGameOver || !store.isPlaying) return;
+
+  store.difficulty += 0.05; // +5% de difficulté
+
+  // On change de "niveau" tous les 0.2 de difficulté
+  store.level = Math.floor((store.difficulty - 1) * 5) + 1;
+
+  difficultyTimeout = setTimeout(increaseDifficulty, 5000); // Toutes les 5 secondes
 };
 
 // Supprimer une roche
@@ -61,13 +82,9 @@ const removeRock = (id, hit = false) => {
 };
 
 // --- CYCLE DE VIE VUE ---
-onMounted(() => {
-  // On ne lance plus l'intervalle ici, on attend isPlaying
-});
-
 onUnmounted(() => {
-  // Nettoyer l'intervalle si on quitte la page
-  clearInterval(gameLoop);
+  clearTimeout(spawnTimeout);
+  clearTimeout(difficultyTimeout);
 });
 
 // Gérer le démarrage et l'arrêt du jeu
@@ -75,10 +92,12 @@ watch(() => store.isPlaying, (isPlaying) => {
   if (isPlaying) {
     // Vider les roches restantes d'une partie précédente
     rocks.value = [];
-    // Lancer le générateur
-    gameLoop = setInterval(spawnRock, 1000);
+    // Lancer les timers
+    spawnRock();
+    increaseDifficulty();
   } else {
-    clearInterval(gameLoop);
+    clearTimeout(spawnTimeout);
+    clearTimeout(difficultyTimeout);
   }
 });
 </script>

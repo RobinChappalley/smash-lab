@@ -3,12 +3,16 @@ import { reactive } from 'vue';
 export const store = reactive({
   score: 0,
   lives: 3,
+  level: 1,
+  difficulty: 1,
   isGameOver: false,
   isPlaying: false,
 
   reset() {
     this.score = 0;
     this.lives = 3;
+    this.level = 1;
+    this.difficulty = 1;
     this.isGameOver = false;
   },
 
