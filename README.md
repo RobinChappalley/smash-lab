@@ -22,6 +22,10 @@
 - [a-frame-environment-component](https://github.com/supermedium/aframe-environment-component) (MIT License)
 -[Explosion sound](https://pixabay.com/sound-effects/film-special-effects-medium-explosion-40472/)
 
+- [8-bit music](https://www.youtube.com/watch?v=mRN_T6JkH-c&list=PLwJjxqYuirCLkq42mGw4XKGQlpZSfxsYd)
+- [Losing sound](https://www.youtube.com/watch?v=FVJJKIJWKdc)
+- [Audio assets](https://www.youtube.com/watch?v=SoZhpnTuQBo)
+
 ### Movement modes support
 
 - **Desktop** – Keyboard for move (_WASD_ or Arrows keys) + Mouse for look control (Drag and drop)

@@ -6,6 +6,9 @@
       <a-asset-item id="heart-model" src="assets/love_low_poly.glb"></a-asset-item>
       <audio id="hit-sound" src="assets/hit.mp3"></audio>
       <audio id="bg-music" src="assets/music.mp3" loop="true" preload="auto"></audio>
+      <audio id="loss-1" src="assets/life-loss/1-life-loss.mp3" preload="auto"></audio>
+      <audio id="loss-2" src="assets/life-loss/2-life-loss.mp3" preload="auto"></audio>
+      <audio id="loss-3" src="assets/life-loss/3-life-loss.mp3" preload="auto"></audio>
     </a-assets>
 
 
@@ -29,6 +32,12 @@
       <a-ring position="0 0.1 0" rotation="-90 0 0" radius-inner="0.8" radius-outer="1" color="#ff8800"
         material="emissive: #ff4400"></a-ring>
       <a-entity id="ambient-music" sound="src: #bg-music; autoplay: false; loop: true; volume: 0.8"></a-entity>
+
+      <!-- Sons de perte de vie -->
+      <a-entity id="sound-loss-1" sound="src: #loss-1; autoplay: false; volume: 1.5"></a-entity>
+      <a-entity id="sound-loss-2" sound="src: #loss-2; autoplay: false; volume: 1.5"></a-entity>
+      <a-entity id="sound-loss-3" sound="src: #loss-3; autoplay: false; volume: 1.5"></a-entity>
+
       <TheRockSpawner />
     </template>
     <TheCameraRig />
@@ -59,6 +68,22 @@ watch(() => store.isPlaying, (isPlaying) => {
     const audioNode = musicEl.components.sound.pool.children[0];
     if (audioNode && audioNode.setPlaybackRate) {
       audioNode.setPlaybackRate(1.0);
+    }
+  }
+});
+// Gérer les effets sonores de perte de vie
+watch(() => store.lives, (newLives, oldLives) => {
+  // on ne joue le son que si on a perdu une vie et que le jeu était en cours
+  if (newLives < oldLives && oldLives <= 3) {
+    // 3 -> 2 = 1ère perte (son 1)
+    // 2 -> 1 = 2ème perte (son 2)
+    // 1 -> 0 = 3ème perte (son 3)
+    const livesLostCount = 3 - newLives;
+    const soundEl = document.querySelector(`#sound-loss-${livesLostCount}`);
+
+    if (soundEl && soundEl.components.sound) {
+      soundEl.components.sound.stopSound();
+      soundEl.components.sound.playSound();
     }
   }
 });
