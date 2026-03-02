@@ -24,7 +24,7 @@
 - [aframe-haptics](https://github.com/supermedium/superframe/tree/master/components/haptics) (MIT License)
 ### Assets
 
--[Explosion sound](https://pixabay.com/sound-effects/film-special-effects-medium-explosion-40472/)
+- [Explosion sound](https://pixabay.com/sound-effects/film-special-effects-medium-explosion-40472/)
 - [8-bit music](https://www.youtube.com/watch?v=mRN_T6JkH-c&list=PLwJjxqYuirCLkq42mGw4XKGQlpZSfxsYd)
 - [Losing sound](https://www.youtube.com/watch?v=FVJJKIJWKdc)
 - [Audio assets](https://www.youtube.com/watch?v=SoZhpnTuQBo)
