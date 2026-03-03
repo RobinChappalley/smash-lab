@@ -7,6 +7,7 @@ export const store = reactive({
   difficulty: 1,
   combo: 0,
   coins: 0,
+  bestScore: 0,
   isGameOver: false,
   isPlaying: false,
 
@@ -36,6 +37,9 @@ export const store = reactive({
     if (this.lives <= 0) {
       this.isGameOver = true;
       this.isPlaying = false;
+      if (this.score > this.bestScore) {
+        this.bestScore = this.score;
+      }
     }
   },
 

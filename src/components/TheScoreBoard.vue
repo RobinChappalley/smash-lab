@@ -38,10 +38,6 @@
         :material="`color: #222; opacity: ${store.lives < i ? 0.2 : 0}; transparent: true`"></a-entity>
     </a-entity>
 
-    <!-- MESSAGE GAME OVER -->
-    <a-entity v-if="store.isGameOver" position="0 -0.35 0">
-      <a-text value="GAME OVER" color="red" align="center" width="4" scale="1.5 1.5 1.5"></a-text>
-    </a-entity>
   </a-entity>
 </template>
 

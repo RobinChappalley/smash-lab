@@ -27,7 +27,7 @@
 
 
       <!-- MENU DE DÉPART -->
-      <TheGameMenu v-if="!store.isPlaying" position="0 1.2 -1.2" rotation="-30 0 0 " />
+      <TheGameMenu v-if="!store.isPlaying" position="0 1.2 -1.2" rotation="-15 0 0 " />
 
       <!-- ZONE DE JEU -->
 
