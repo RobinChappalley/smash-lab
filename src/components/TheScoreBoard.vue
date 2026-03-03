@@ -4,12 +4,16 @@
     <a-plane width="2.2" height="1" color="#222" material="shader: flat; opacity: 0.9">
       <a-entity position="0 0.1 0.01">
         <!-- AFFICHE LE SCORE -->
-        <a-text :value="`SCORE: ${store.score}`" position="0 0.2 0" color="#FFD700" align="center" scale="1.2 1.2 1.2"
+        <a-text :value="`SCORE: ${store.score}`" position="0 0.25 0" color="#FFD700" align="center" scale="1.2 1.2 1.2"
+          font="exo2bold"></a-text>
+
+        <!-- AFFICHE LES PIÈCES -->
+        <a-text :value="`COINS: ${store.coins}`" position="0 -0.05 0" color="#00FFDD" align="center" scale="1.2 1.2 1.2"
           font="exo2bold"></a-text>
 
         <!-- AFFICHE LE COMBO -->
-        <a-text v-if="store.combo > 1" :value="`Streak: ${store.combo}`" position="0 -0.2 0" color="#FF8800"
-          align="center" scale="1.2 1.2 1.2" font="exo2bold"
+        <a-text :value="`Streak: ${store.combo}`" position="0 -0.35 0" color="#FF8800" align="center"
+          scale="1.2 1.2 1.2" font="exo2bold"
           animation="property: scale; to: 1.4 1.4 1.4; dur: 200; dir: alternate; loop: 2; startEvents: combo-changed"></a-text>
       </a-entity>
     </a-plane>
