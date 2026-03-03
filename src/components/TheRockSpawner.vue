@@ -5,15 +5,29 @@
     :fly-forward="`speed: ${rock.isHit ? 0 : rock.speed}`" :hand-collision="rock.isHit ? null : ''"
     @hit="removeRock(rock.id, true)" @out-of-bounds="removeRock(rock.id, false)">
 
-    <!-- Visuel de la roche (Si pas touchée) -->
-    <a-dodecahedron v-if="!rock.isHit" radius="0.4" color="#aa3300"
-      material="roughness: 0.9; metalness: 0.2; flatShading: true; emissive: #330000">
-      <a-entity light="type: point; color: #ff0000; distance: 2; intensity: 1"></a-entity>
-    </a-dodecahedron>
+    <template v-if="!rock.isHit">
+      <!-- Visuel de la roche normale -->
+      <a-dodecahedron v-if="rock.type === 'normal'" radius="0.4" color="#aa3300"
+        material="roughness: 0.9; metalness: 0.2; flatShading: true; emissive: #330000">
+        <a-entity light="type: point; color: #ff0000; distance: 2; intensity: 1"></a-entity>
+      </a-dodecahedron>
+
+      <!-- Visuel de la roche dorée (Bonus x10) -->
+      <a-dodecahedron v-else-if="rock.type === 'golden'" radius="0.4" color="#ffcc00"
+        material="roughness: 0.2; metalness: 0.8; flatShading: true; emissive: #ffaa00; emissiveIntensity: 0.5">
+        <a-entity light="type: point; color: #ffcc00; distance: 3; intensity: 2"></a-entity>
+      </a-dodecahedron>
+
+      <!-- Visuel du Coeur (Bonus +1 Vie) -->
+      <a-entity v-else-if="rock.type === 'heart'" gltf-model="#heart-model" scale="0.015 0.015 0.015"
+        animation="property: rotation; to: 0 360 0; loop: true; dur: 2000; easing: linear">
+        <a-entity light="type: point; color: #ff0088; distance: 2; intensity: 1"></a-entity>
+      </a-entity>
+    </template>
 
     <!-- EFFET D'EXPLOSION (Si touchée) - On l'éloigne de 0.5m pour qu'il ne soit pas "dans les yeux" -->
     <a-entity v-else explode position="0 0 -0.5"
-      :sound="`src: #hit-sound; autoplay: true; volume: 2; positional: true`"></a-entity>
+      :sound="rock.type === 'heart' ? '' : `src: ${rock.type === 'golden' ? '#boost-sound' : '#hit-sound'}; autoplay: true; volume: 2; positional: true`"></a-entity>
   </a-entity>
 </template>
 
@@ -41,7 +55,16 @@ const spawnRock = () => {
   // La vitesse augmente avec la difficulté
   const speed = (BASE_SPEED + Math.random() * 4) * store.difficulty;
 
-  rocks.value.push({ id, x, y, speed, isHit: false });
+  // Attribution du type de roche (probabilités de spawn)
+  const rand = Math.random();
+  let type = 'normal';
+  if (rand > 0.95) {
+    type = 'heart'; // 5% de chance
+  } else if (rand > 0.85) {
+    type = 'golden'; // 10% de chance
+  }
+
+  rocks.value.push({ id, x, y, speed, type, isHit: false });
 
   // Planifier la prochaine roche (l'intervalle diminue avec la difficulté)
   const currentInterval = Math.max(300, BASE_INTERVAL / store.difficulty);
@@ -64,18 +87,30 @@ const increaseDifficulty = () => {
 const removeRock = (id, hit = false) => {
   const rockIndex = rocks.value.findIndex(rock => rock.id === id);
   if (rockIndex !== -1) {
-    if (hit) {
-      store.addScore(1);
-      // On marque la roche comme touchée au lieu de la supprimer
-      rocks.value[rockIndex].isHit = true;
+    const rock = rocks.value[rockIndex];
 
-      // On attend la fin de l'effet d'explosion pour la supprimer du DOM
+    if (hit) {
+      if (rock.type === 'golden') {
+        store.addScore(10);
+      } else if (rock.type === 'heart') {
+        store.addLife();
+        store.addScore(1);
+      } else {
+        store.addScore(1);
+      }
+
+      store.incrementCombo();
+      rock.isHit = true;
+
       setTimeout(() => {
-        const finalIdx = rocks.value.findIndex(rock => rock.id === id);
+        const finalIdx = rocks.value.findIndex(r => r.id === id);
         if (finalIdx !== -1) rocks.value.splice(finalIdx, 1);
       }, 1000);
     } else {
-      store.removeLife();
+      // On ne pénalise que si on manque une roche normale
+      if (rock.type === 'normal') {
+        store.removeLife();
+      }
       rocks.value.splice(rockIndex, 1);
     }
   }
