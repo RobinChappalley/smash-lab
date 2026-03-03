@@ -20,7 +20,7 @@
 
       <!-- ENVIRONNEMENT & LUMIERE (Gérés dynamiquement par le store) -->
       <a-entity
-        :environment="`preset: ${store.worlds[store.currentWorld].preset}; groundColor: ${store.worlds[store.currentWorld].groundColor}; skyColor: ${store.worlds[store.currentWorld].skyColor}; skyType: atmosphere; lighting: point`">
+        :environment="`preset: ${store.worlds[store.currentWorld].preset}; groundColor: ${store.worlds[store.currentWorld].groundColor}; skyColor: ${store.worlds[store.currentWorld].skyColor}; skyType: atmosphere; lighting: distant; lightPosition: 0 1 1`">
       </a-entity>
 
 
