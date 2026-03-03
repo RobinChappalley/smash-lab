@@ -1,6 +1,7 @@
 <template>
     <a-entity>
         <a-entity v-for="(world, key, index) in store.worlds" :key="key">
+            <a-light type="point" :position="`0 ${-80 + (index * 20)} 0`"></a-light>
             <!-- On exclut 'void' du système de sélection puisqu'il est par défaut -->
             <a-entity v-if="key !== 'void'" :rotation="`0 ${-80 + (index * 20)} 0`">
                 <!-- Conteneur qui décale la sphère sur l'arc de cercle -->
