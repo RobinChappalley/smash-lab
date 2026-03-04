@@ -39,12 +39,22 @@
 
       <!-- BOUTON D'ACTION (START / RESTART) -->
       <a-box id="start-button" width="1.2" height="0.3" depth="0.1" :color="store.isGameOver ? '#662222' : '#444'"
-        position="0 -0.1 0" clickable @click="store.startGame()" class="button"
+        position="0 0.1 0" clickable @click="store.startGame()" class="button"
         :animation__mouseenter="`property: components.material.material.color; type: color; to: ${store.isGameOver ? '#ff4444' : '#666'}; startEvents: mouseenter; dur: 200`"
         :animation__mouseleave="`property: components.material.material.color; type: color; to: ${store.isGameOver ? '#662222' : '#444'}; startEvents: mouseleave; dur: 200`"
-        :animation__click="`property: position; from: 0 -0.1 0; to: 0 -0.1 -0.05; startEvents: click; dur: 100; dir: alternate; loop: 1`">
+        :animation__click="`property: position; from: 0 0.1 0; to: 0 0.1 -0.05; startEvents: click; dur: 100; dir: alternate; loop: 1`">
         <a-text :value="store.isGameOver ? 'RESTART' : 'START'" align="center" position="0 0 0.06" width="3"
           color="white" font="exo2bold"></a-text>
+      </a-box>
+
+      <!-- BOUTON RETOUR HUB (CHANGE WORLD) -->
+      <a-box id="hub-button" width="1.2" height="0.3" depth="0.1" color="#224466" position="0 -0.3 0" clickable
+        @click="store.isSelectingWorld = true; store.isGameOver = false" class="button"
+        animation__mouseenter="property: components.material.material.color; type: color; to: #446688; startEvents: mouseenter; dur: 200"
+        animation__mouseleave="property: components.material.material.color; type: color; to: #224466; startEvents: mouseleave; dur: 200"
+        animation__click="property: position; from: 0 -0.3 0; to: 0 -0.3 -0.05; startEvents: click; dur: 100; dir: alternate; loop: 1">
+        <a-text value="CHANGE WORLD" align="center" position="0 0 0.06" width="2.5" color="white"
+          font="exo2bold"></a-text>
       </a-box>
 
     </a-entity>

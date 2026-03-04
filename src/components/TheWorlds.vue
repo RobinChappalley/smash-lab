@@ -1,5 +1,13 @@
 <template>
     <a-entity>
+        <!-- PANNEAU D'ERREUR (S'affiche si on a pas assez de pièces) -->
+        <a-entity v-if="store.showCoinError" position="0 2 -2"
+            animation="property: scale; from: 0 0 0; to: 1 1 1; dur: 200; easing: easeOutElastic">
+            <a-plane width="2.5" height="0.6" color="#ff0000" opacity="0.8" material="shader: flat"></a-plane>
+            <a-text value="Not enough coins !" align="center" position="0 0 0.05" width="4" color="#ffffff"
+                font="exo2bold"></a-text>
+        </a-entity>
+
         <a-entity v-for="(world, key, index) in store.worlds" :key="key">
             <a-light type="point" :position="`0 ${-80 + (index * 20)} 0`"></a-light>
             <!-- On exclut 'void' du système de sélection puisqu'il est par défaut -->
@@ -10,7 +18,7 @@
                     <!-- Boule interactive du monde -->
                     <a-sphere radius="0.25" :color="world.groundColor"
                         :material="`roughness: 0.5; emissive: ${store.currentWorld === key ? '#ffffff' : '#000000'}; emissiveIntensity: 0.2`"
-                        clickable @click="selectWorld(key)"
+                        clickable @click="selectWorld(key)" haptics="events: mouseenter; dur: 40; force: 0.4"
                         :animation__hover="`property: scale; to: 1.1 1.1 1.1; startEvents: mouseenter; dur: 200`"
                         :animation__leave="`property: scale; to: 1 1 1; startEvents: mouseleave; dur: 200`">
                     </a-sphere>
@@ -36,12 +44,29 @@ const selectWorld = (key) => {
     // Déjà débloqué : On s'en équipe
     if (store.unlockedWorlds.includes(key)) {
         store.currentWorld = key;
+        store.isSelectingWorld = false; // Ferme le hub, ouvre le menu Go
     }
     // Pas encore débloqué, mais on a l'argent (10 Coins)
     else if (store.coins >= 10) {
         store.removeCoin(10); // Paie
         store.unlockedWorlds.push(key); // Débloque
         store.currentWorld = key; // S'en équipe automatiquement
+        store.isSelectingWorld = false; // Ferme le hub
+    }
+    // Pas débloqué et pas d'argent
+    else {
+        store.showCoinError = true;
+
+        // Joue un son d'erreur d'interface (S'il existe)
+        const soundEl = document.querySelector('#error-sound');
+        if (soundEl && soundEl.components.sound) {
+            soundEl.components.sound.stopSound();
+            soundEl.components.sound.playSound();
+        }
+
+        setTimeout(() => {
+            store.showCoinError = false;
+        }, 2500);
     }
 };
 </script>

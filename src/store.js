@@ -6,12 +6,14 @@ export const store = reactive({
   level: 1,
   difficulty: 1,
   combo: 0,
-  coins: 0,
+  coins: 1000,
   bestScore: 0,
   currentWorld: 'void',
   unlockedWorlds: ['volcano'], // Liste des mondes débloqués
   isGameOver: false,
   isPlaying: false,
+  isSelectingWorld: true,
+  showCoinError: false,
 
   // Définition des mondes (pour faciliter l'évolution plus tard)
   worlds: {
@@ -42,10 +44,6 @@ export const store = reactive({
     this.difficulty = 1;
     this.combo = 0;
     this.isGameOver = false;
-    // Quand on reset, si on était dans le hub (void), on bascule sur le monde par défaut pour jouer
-    if (this.currentWorld === 'void') {
-      this.currentWorld = 'volcano';
-    }
   },
 
   startGame() {
@@ -65,7 +63,6 @@ export const store = reactive({
     if (this.lives <= 0) {
       this.isGameOver = true;
       this.isPlaying = false;
-      this.currentWorld = 'void'; // On retourne dans le Hub à la mort
       if (this.score > this.bestScore) {
         this.bestScore = this.score;
       }

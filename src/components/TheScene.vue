@@ -12,6 +12,7 @@
       <audio id="loss-3" src="assets/life-loss/3-life-loss.mp3" preload="auto"></audio>
       <audio id="new-life" src="assets/new-life.mp3" preload="auto"></audio>
       <audio id="full-life" src="assets/full-life.mp3" preload="auto"></audio>
+      <audio id="error-sfx" src="assets/hit.mp3" preload="auto"></audio>
     </a-assets>
 
 
@@ -27,11 +28,11 @@
       <TheScoreBoard position="-2 2 -3" rotation="0 45 0" />
 
 
-      <!-- MENU DE DÉPART -->
-      <TheGameMenu v-if="!store.isPlaying" position="0 1.2 -1.2" rotation="-15 0 0 " />
+      <!-- MENU DE DÉPART / GAME OVER -->
+      <TheGameMenu v-if="!store.isPlaying && !store.isSelectingWorld" position="0 1.2 -1.2" rotation="-15 0 0 " />
 
       <!-- SÉLECTEUR DE MONDES (Hub) -->
-      <TheWorlds v-if="!store.isPlaying" position="0 1.8 0" />
+      <TheWorlds v-if="!store.isPlaying && store.isSelectingWorld" position="0 1.8 0" />
 
       <!-- ÉCLAIRAGE D'APPOINT (Puits de lumière dynamique en partie) -->
       <a-entity v-if="store.isPlaying">
@@ -53,6 +54,7 @@
       <a-entity id="sound-loss-3" sound="src: #loss-3; autoplay: false; volume: 1.5"></a-entity>
       <a-entity id="sound-new-life" sound="src: #new-life; autoplay: false; volume: 1.5"></a-entity>
       <a-entity id="sound-full-life" sound="src: #full-life; autoplay: false; volume: 2.5"></a-entity>
+      <a-entity id="error-sound" sound="src: #error-sfx; autoplay: false; volume: 1; pitch: 0.5"></a-entity>
 
       <TheRockSpawner />
     </template>
