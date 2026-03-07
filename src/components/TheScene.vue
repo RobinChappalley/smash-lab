@@ -25,7 +25,7 @@
       </a-entity>
 
 
-      <TheScoreBoard position="-2 2 -3" rotation="0 45 0" />
+
 
 
       <!-- MENU DE DÉPART / GAME OVER -->
@@ -69,7 +69,6 @@ import { ref, watch, onMounted } from 'vue';
 import { store } from '../store.js';
 import TheCameraRig from './TheCameraRig.vue';
 import TheRockSpawner from './TheRockSpawner.vue';
-import TheScoreBoard from './TheScoreBoard.vue';
 import TheGameMenu from './TheGameMenu.vue';
 import TheWorlds from './TheWorlds.vue';
 const allAssetsLoaded = ref(false);

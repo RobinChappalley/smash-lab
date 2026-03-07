@@ -5,6 +5,8 @@ import '../aframe/simple-navmesh-constraint.js';
 import '../aframe/blink-controls.js';
 import '../aframe/physx-grab.js';
 import '../aframe/haptics.js';
+import { store } from '../store.js';
+import TheHUD from './TheHUD.vue';
 </script>
 
 <template>
@@ -12,6 +14,9 @@ import '../aframe/haptics.js';
     <a-entity id="head" look-controls="pointerLockEnabled: true"
       simple-navmesh-constraint="navmesh: [data-role='nav-mesh']; height: 1.65;"
       disable-in-vr="component: simple-navmesh-constraint;" camera position="0 1.65 0">
+
+      <TheHUD v-if="store.isPlaying" />
+
       <a-entity id="cursor" geometry="primitive: ring; radiusInner: 0.001; radiusOuter: 0.002;"
         material="shader: flat; color: white; opacity: 0.8" cursor="fuse: false"
         raycaster="far: 10; objects: [clickable]; showLine: false;" position="0 0 -0.1"
