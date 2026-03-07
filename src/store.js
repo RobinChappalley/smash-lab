@@ -8,7 +8,7 @@ export const store = reactive({
   combo: 0,
   bestCombo: 0,
   sessionCoins: 0,
-  coins: 1000,
+  coins: 0,
   bestScore: 0,
   currentWorld: 'void',
   unlockedWorlds: ['volcano'], // Liste des mondes débloqués
