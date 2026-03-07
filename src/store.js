@@ -11,6 +11,7 @@ export const store = reactive({
   coins: 0,
   bestScore: 0,
   currentWorld: 'void',
+  gameAngle: 0, // Orientation du jeu en fonction du monde choisi
   unlockedWorlds: ['volcano'], // Liste des mondes débloqués
   isGameOver: false,
   isPlaying: false,

@@ -28,24 +28,30 @@
 
 
 
-      <!-- MENU DE DÉPART / GAME OVER -->
-      <TheGameMenu v-if="!store.isPlaying && !store.isSelectingWorld" position="0 1.2 -1.2" rotation="-15 0 0 " />
-
-      <!-- SÉLECTEUR DE MONDES (Hub) -->
+      <!-- SÉLECTEUR DE MONDES (Hub) - RESTE FIXÉ AU CENTRE -->
       <TheWorlds v-if="!store.isPlaying && store.isSelectingWorld" position="0 1.8 0" />
 
-      <!-- ÉCLAIRAGE D'APPOINT (Puits de lumière dynamique en partie) -->
-      <a-entity v-if="store.isPlaying">
-        <!-- Lumière chaude (droite) -->
-        <a-light type="directional" position="5 3 2" color="#FFD700" intensity="0.5"></a-light>
-        <!-- Lumière froide de contraste (gauche) -->
-        <a-light type="directional" position="-5 3 -2" color="#00ffff" intensity="0.3"></a-light>
+      <!-- ARÈNE DE JEU - S'ORIENTE VERS LE MONDE SÉLECTIONNÉ -->
+      <a-entity :rotation="`0 ${store.gameAngle} 0`">
+
+        <!-- MENU DE DÉPART / GAME OVER -->
+        <TheGameMenu v-if="!store.isPlaying && !store.isSelectingWorld" position="0 1.2 -1.2" rotation="-15 0 0 " />
+
+        <!-- ÉCLAIRAGE D'APPOINT (Puits de lumière dynamique en partie) -->
+        <a-entity v-if="store.isPlaying">
+          <!-- Lumière chaude (droite) -->
+          <a-light type="directional" position="5 3 2" color="#FFD700" intensity="0.5"></a-light>
+          <!-- Lumière froide de contraste (gauche) -->
+          <a-light type="directional" position="-5 3 -2" color="#00ffff" intensity="0.3"></a-light>
+        </a-entity>
+
+        <!-- ZONE DE JEU -->
+        <a-ring position="0 0.1 0" rotation="-90 0 0" radius-inner="0.8" radius-outer="1" color="#ff8800"
+          material="emissive: #ff4400"></a-ring>
+
+        <TheRockSpawner />
       </a-entity>
 
-      <!-- ZONE DE JEU -->
-
-      <a-ring position="0 0.1 0" rotation="-90 0 0" radius-inner="0.8" radius-outer="1" color="#ff8800"
-        material="emissive: #ff4400"></a-ring>
       <a-entity id="ambient-music" sound="src: #bg-music; autoplay: false; loop: true; volume: 0.8"></a-entity>
 
       <!-- Sons de perte / gain de vie -->
@@ -55,8 +61,6 @@
       <a-entity id="sound-new-life" sound="src: #new-life; autoplay: false; volume: 1.5"></a-entity>
       <a-entity id="sound-full-life" sound="src: #full-life; autoplay: false; volume: 2.5"></a-entity>
       <a-entity id="error-sound" sound="src: #error-sfx; autoplay: false; volume: 1; pitch: 0.5"></a-entity>
-
-      <TheRockSpawner />
     </template>
     <TheCameraRig />
 
