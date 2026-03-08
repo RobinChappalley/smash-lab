@@ -42,6 +42,8 @@
 
 - **Hearts** – [Love Low Poly](https://sketchfab.com/3d-models/love-low-poly-dd3b881a34904991878dc6a5a05aa1f6) by [VARRRG](https://sketchfab.com/VladislavFehu) is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 
+- **Boxing Gloves** - [boxing gloves💮📷](https://sketchfab.com/3d-models/boxing-gloves-9d244a5bfaf84ea398cff99154e99eab ) by [ayumi ikeda](https://sketchfab.com/rxf10240) is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+
 ---
 
 ## Quickstart

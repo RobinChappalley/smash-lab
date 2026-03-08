@@ -11,6 +11,7 @@
       <audio id="loss-2" src="assets/life-loss/2-life-loss.mp3" preload="auto"></audio>
       <audio id="loss-3" src="assets/life-loss/3-life-loss.mp3" preload="auto"></audio>
       <audio id="new-life" src="assets/new-life.mp3" preload="auto"></audio>
+      <a-asset-item id="gloves-model" src="assets/boxing_gloves.glb"></a-asset-item>
       <audio id="full-life" src="assets/full-life.mp3" preload="auto"></audio>
       <audio id="error-sfx" src="assets/hit.mp3" preload="auto"></audio>
       <audio id="no-money-asset" src="assets/no-money.mp3" preload="auto"></audio>
