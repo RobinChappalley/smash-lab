@@ -9,6 +9,18 @@ const fullReloadPlugin = {
   },
 };
 
+const staticMediaCachePlugin = {
+  name: "static-media-cache",
+  configureServer(server) {
+    server.middlewares.use((req, res, next) => {
+      if (req.url && req.url.match(/\.(mp3|wav|ogg|glb|gltf|png|jpg|jpeg|webp)$/i)) {
+        res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+      }
+      next();
+    });
+  },
+};
+
 export default defineConfig(({ command, mode }) => {
   const config = {
     base: "/robin/",
@@ -23,6 +35,7 @@ export default defineConfig(({ command, mode }) => {
         },
       }),
       fullReloadPlugin,
+      staticMediaCachePlugin,
     ],
     resolve: {
       alias: {

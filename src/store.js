@@ -1,4 +1,5 @@
 import { reactive } from 'vue';
+import { soundService } from './sound.js';
 
 export const store = reactive({
   score: 0,
@@ -113,12 +114,8 @@ export const store = reactive({
   nomoney() {
     this.showCoinError = true;
     
-    // Joue le son d'erreur d'achat
-    const soundEl = document.querySelector('#sound-no-money');
-    if (soundEl && soundEl.components.sound) {
-      soundEl.components.sound.stopSound();
-      soundEl.components.sound.playSound();
-    }
+    // Joue le son d'erreur d'achat en mémoire
+    soundService.play('noMoney', { volume: 1.5 });
     
     setTimeout(() => {
       this.showCoinError = false;
